@@ -1,11 +1,11 @@
-
+@import url("content.css");
 body{
     margin: 0;
+    background-color: blanchedalmond;
 }
 .header{
     display: flex;
     min-height: 100px;
-    background-color: blanchedalmond;
     justify-content: center;
     align-items: center;
 }
@@ -13,7 +13,7 @@ body{
     margin:0;
 }
 .main{
-    min-height: 400px;
+    min-height: 300px;
     background-color: rgb(255, 198, 111);
     text-align: center;
 }
@@ -39,5 +39,7 @@ body{
 }
 .footer{
     min-height: 100px;
-    background-color: blanchedalmond;
+}
+.main .hidden{
+    display: none;
 }

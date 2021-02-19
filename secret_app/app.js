@@ -27,8 +27,6 @@ const text1 = new Text({
     text: "XNJJSD"
 });
 	
-mongoose.connect("mongodb://localhost:27017/newdb", {useUnifiedTopology: true, useNewUrlParser: true});
-
 
 app.use(express.static(__dirname+dir+"/js"));
 app.use(express.static(__dirname+dir+"/css"));
@@ -36,11 +34,23 @@ app.use(express.static(__dirname+dir+"/css"));
 app.get("/", function(req, res){
    res.sendFile(__dirname+dir+"/html/index.html");
 });
-app.post("/send", urlencodedParser, function (request, response) {
+app.get("/*", function(req, res){
+    res.sendFile(__dirname+dir+"/html/content.html");
+ });
+app.post("/send", JSONParser, function (request, response) {
     if(!request.body) return response.sendStatus(400);
+    mongoose.connect("mongodb://localhost:27017/newdb", {useUnifiedTopology: true, useNewUrlParser: true});
     console.log(request.body);
     let new_text=new Text(request.body);
-    new_text.save()
+    new_text.save().then(
+        function(txt){
+            mongoose.disconnect();
+            return response.send(JSON.stringify({url:txt._id}));
+        }).catch(function (err){
+            console.log(err);
+            mongoose.disconnect();
+        });
+
 });
 app.post("/getpass",JSONParser, function (req,res) {
     res.send(JSON.stringify({

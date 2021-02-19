@@ -1,0 +1,14 @@
+.content {
+    align-items: center;
+    background-color: cornflowerblue;
+    min-height: 300px;
+}
+.content textarea{
+    width: 160px;
+}
+.content .label{
+    margin: 4px;
+}
+.content .pass{
+    width: 160px;
+}
