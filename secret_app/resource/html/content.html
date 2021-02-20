@@ -12,14 +12,18 @@
         <h1>Cервис Secret</h1>
     </header>
     <main class="content">
-        <div class="content-pass">
+        <div id="content-pass" class="content-pass">
             <label for="pass">Введите пароль:</label>
             <input id="pass" type="password" class="pass">
-            <button id="buttonRequest" class="request" >Запрос</button>
+            <button id="buttonRequest" class="request button" >Запрос</button>
         </div>
-        <div class="content-text">
+        <div id ="content-text" class="content-text hidden">
+            <label for="pass">Секретное сообщение:</label>
             <textarea name="text" id="secret-text" disabled  rows="10"></textarea>
-            <button id="buttonDelete" class="delete" >Удалить</button>
+            <button id="buttonDelete" class="delete button" >Удалить</button>
+        </div>
+        <div id="thx" class="tnx">
+            <output id="outputTnx"></output>
         </div>
     </main>
     <footer class="footer"></footer>

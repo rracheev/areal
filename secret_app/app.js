@@ -25,6 +25,28 @@ const textSchema = new Schema({
   });
 const Text = mongoose.model('Text', textSchema);
 
+async function getTxt(id){
+    mongoose.connect('mongodb://localhost:27017/newdb', {useUnifiedTopology: true, useNewUrlParser: true});
+    let answer= await Text.findOne({ _id:id});
+    mongoose.disconnect();
+    if (answer===null){
+        throw "Not Exist";
+    }
+    return answer;
+}
+
+async function deleteTxt(id){
+    mongoose.connect('mongodb://localhost:27017/newdb', {useUnifiedTopology: true, useNewUrlParser: true});
+    await Text.deleteOne({_id:id}, function (error, result) { 
+        if (error){ 
+            console.log(error) 
+            throw 'Error'
+        }else{ 
+            console.log("Delete result:", result)  
+        } 
+    }); 
+    await mongoose.disconnect();
+}
 app.get('/', function(request, response){
     response.sendFile(__dirname+dir+'/html/index.html');
 });
@@ -33,30 +55,6 @@ app.get('/*', function(request, response){
     response.sendFile(__dirname+dir+'/html/content.html');
  });
 
-async function getTxt(id){
-    mongoose.connect('mongodb://localhost:27017/newdb', {useUnifiedTopology: true, useNewUrlParser: true});
-    let answer= await Text.findOne({ _id
-        : id});
-    mongoose.disconnect();
-    return answer;
-}
-
-app.post('/verify', JSONParser, function(request, response){
-    let id=request.rawHeaders[21].split('/')[3];
-    console.log('id:',id)
-    let pass= request.body.password;
-    getTxt(id).then(function(txt){  
-        if(pass!=text.password){
-            response.send(new Error('INCORRECT_PASS'));
-        }
-        else{
-            response.send(JSON.stringify({text:txt.text}));
-        }
-    }).catch(function(){
-        console.log('Error');
-        response.send(new Error('DATA_NOT_EXIST'));
-    });
-});
 app.post('/send', JSONParser, function (request, response) {
     if(!request.body) return response.send(new Error('Error 123'));
     mongoose.connect('mongodb://localhost:27017/newdb', {useUnifiedTopology: true, useNewUrlParser: true});
@@ -74,6 +72,45 @@ app.post('/send', JSONParser, function (request, response) {
         });
 
 });
+
+app.post('/verify', JSONParser, function(request, response){
+    let id=request.rawHeaders[21].split('/')[3];
+    let pass= request.body.password;
+    getTxt(id).then(function(txt){
+        console.log(txt);
+        if(pass!=txt.password){
+            response.status('403').send();
+        }
+        else{
+            response.send(JSON.stringify({text:txt.text}));
+        }
+    }).catch(function(){
+        response.status('404').send();
+    });
+});
+
+app.post('/delete', JSONParser, function(request, response){
+    let id=request.rawHeaders[21].split('/')[3];
+    let pass= request.body.password;
+    getTxt(id).then(function(txt){
+        console.log(txt);
+        if(pass!=txt.password){
+            response.status('403').send();
+        }
+        else{
+            deleteTxt(id).then(function(){
+                console.log('Well done')
+                response.status('200').send();
+            }).catch(function(){
+                console.log('Delete Error')
+                response.status('400').send();
+            });
+        }
+    }).catch(function(){
+        response.status('404').send();
+    });
+});
+
 app.post('/getpass',JSONParser, function (request,response) {
     response.send(JSON.stringify({
         pass: 's'
