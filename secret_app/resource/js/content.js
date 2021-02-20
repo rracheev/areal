@@ -11,10 +11,15 @@ async function postPass(){
         body: JSON.stringify(text)
     };  
     let response = await fetch('/verify', options);
-    return await response.json();
+    return response.json();
 }
 async function getData(){
-    let data = await postPass();
-    secretText.value=data.text
+    await postPass().then(function(data){
+        secretText.value=data.text
+    }).catch(
+        function(){
+            secretText.value="Ошибка!   "
+        }
+    );
 }
 buttonRequest.addEventListener('click',getData)

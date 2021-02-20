@@ -28,14 +28,19 @@ async function sendText() {
         body: JSON.stringify(text)
     };
     let response = await fetch('/send', options);
-    return await response.json();
+    return response.json();
 };
 async function getUrl(){
     let url = await sendText();
-    outUrl.value=url.url;
-    form.reset();
-    form.classList.toggle('hidden');
-    divOut.classList.toggle('hidden');
+    if(url.url!=undefined){
+        outUrl.value=url.url;
+        form.reset();
+        form.classList.toggle('hidden');
+        divOut.classList.toggle('hidden');
+    }
+    else{
+        alert('Возникли проблемы!')
+    }
 };
 
 /* window.onload = getPass(); */
