@@ -27,7 +27,6 @@ async function sendText() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(text)
     };
-    console.log(text)
     let response = await fetch('/send', options);
     return await response.json();
 };

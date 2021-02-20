@@ -22,25 +22,38 @@ const textSchema = new Schema({
     text: String
   });
 const Text = mongoose.model("Text", textSchema);
-const text1 = new Text({
-    password: "qwerrty",
-    text: "XNJJSD"
-});
 	
-
 app.use(express.static(__dirname+dir+"/js"));
 app.use(express.static(__dirname+dir+"/css"));
 
-app.get("/", function(req, res){
-   res.sendFile(__dirname+dir+"/html/index.html");
+app.get("/", function(request, response){
+    response.sendFile(__dirname+dir+"/html/index.html");
 });
-app.get("/*", function(req, res){
-    res.sendFile(__dirname+dir+"/html/content.html");
+
+app.get("/*", function(request, response){
+    response.sendFile(__dirname+dir+"/html/content.html");
  });
+
+async function getTxt(id){
+    mongoose.connect("mongodb://localhost:27017/newdb", {useUnifiedTopology: true, useNewUrlParser: true});
+    return await Text.findOne({ _id
+        : id});
+}
+
+app.post("/verify", JSONParser, function(request, response){
+    let id=request.rawHeaders[21].split('/')[3];
+    console.log(id)
+    let pass= request.body.password; 
+    
+    getTxt().then(function(txt){
+        response.send(JSON.stringify({text:txt.text}));
+    }).catch(function(e){
+        response.sendStatus(400);
+    });
+
 app.post("/send", JSONParser, function (request, response) {
     if(!request.body) return response.sendStatus(400);
     mongoose.connect("mongodb://localhost:27017/newdb", {useUnifiedTopology: true, useNewUrlParser: true});
-    console.log(request.body);
     let new_text=new Text(request.body);
     new_text.save().then(
         function(txt){
@@ -52,8 +65,8 @@ app.post("/send", JSONParser, function (request, response) {
         });
 
 });
-app.post("/getpass",JSONParser, function (req,res) {
-    res.send(JSON.stringify({
+app.post("/getpass",JSONParser, function (request,response) {
+    response.send(JSON.stringify({
         pass: 's'
     }));
 });
