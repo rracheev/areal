@@ -2,23 +2,37 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const urlencodedParser = bodyParser.urlencoded({extended: false});
 const JSONParser = bodyParser.json();
-const fs = require('fs');
-const { subtle } = require('crypto').webcrypto;
+const crypto = require('crypto');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const {nanoid} = require('nanoid');
 const app = express();
 
+const password = '2p34Tqwe1a2Ab2KKc';
 const server='http://localhost:3000'
 const dir='/resource';
 	
 app.use(express.static(__dirname+dir+'/js'));
 app.use(express.static(__dirname+dir+'/css'));
 
+function encrypt(str){
+    let cipher = crypto.createCipheriv('aes-128-ecb',password,'');
+    let crypted = cipher.update(str,'utf8','hex');
+    crypted += cipher.final('hex');
+    return crypted;
+}
+
+function decrypt(str){
+    let  decipher = crypto.createDecipheriv('aes-128-ecb',password,'');
+    let  decrypted = decipher.update(str,'hex','utf8');
+    decrypted += decipher.final('utf8');
+    return decrypted;
+}
+
 const textSchema = new Schema({
     _id: {
-      type: String,
-      default: () => nanoid(6)
+        type: String,
+        default: () => nanoid(6)
     },
     password: String,
     text: String
@@ -28,7 +42,7 @@ const Text = mongoose.model('Text', textSchema);
 async function getTxt(id){
     mongoose.connect('mongodb://localhost:27017/newdb', {useUnifiedTopology: true, useNewUrlParser: true});
     let answer= await Text.findOne({ _id:id});
-    mongoose.disconnect();
+    await mongoose.disconnect();
     if (answer===null){
         throw "Not Exist";
     }
@@ -58,8 +72,11 @@ app.get('/*', function(request, response){
 app.post('/send', JSONParser, function (request, response) {
     if(!request.body) return response.send(new Error('Error 123'));
     mongoose.connect('mongodb://localhost:27017/newdb', {useUnifiedTopology: true, useNewUrlParser: true});
-    let new_text=new Text(request.body);
-    console.log('body:',request.body)
+    let data=request.body;
+    data.password=encrypt(data.password);
+    data.text=encrypt(data.text);
+    let new_text=new Text(data);
+    console.log('body_enc:',request.body)
     new_text.save().then(
         function(txt){
             console.log('txt:',txt)
@@ -75,14 +92,14 @@ app.post('/send', JSONParser, function (request, response) {
 
 app.post('/verify', JSONParser, function(request, response){
     let id=request.rawHeaders[21].split('/')[3];
-    let pass= request.body.password;
+    let pass= encrypt(request.body.password);
     getTxt(id).then(function(txt){
         console.log(txt);
         if(pass!=txt.password){
             response.status('403').send();
         }
         else{
-            response.send(JSON.stringify({text:txt.text}));
+            response.send(JSON.stringify({text:decrypt(txt.text)}));
         }
     }).catch(function(){
         response.status('404').send();
@@ -91,7 +108,7 @@ app.post('/verify', JSONParser, function(request, response){
 
 app.post('/delete', JSONParser, function(request, response){
     let id=request.rawHeaders[21].split('/')[3];
-    let pass= request.body.password;
+    let pass= encrypt(request.body.password);
     getTxt(id).then(function(txt){
         console.log(txt);
         if(pass!=txt.password){
@@ -109,12 +126,6 @@ app.post('/delete', JSONParser, function(request, response){
     }).catch(function(){
         response.status('404').send();
     });
-});
-
-app.post('/getpass',JSONParser, function (request,response) {
-    response.send(JSON.stringify({
-        pass: 's'
-    }));
 });
 
 app.listen(3000);

@@ -1,14 +1,3 @@
-/* async function getPass() {
-    let options = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: undefined
-    };
-    let promise = await fetch('/getpass', options)
-    let d=await promise.json();
-    console.log(d);
-    return d;
-}; */
 const form = document.getElementById('formMain');
 const pass1 = document.getElementById('pass1');
 const pass2 = document.getElementById('pass2');
@@ -17,7 +6,6 @@ const divOut = document.getElementById('divOutput');
 const outUrl = document.getElementById('outputUrl');
 
 async function sendText() {
-    
     let text = {
         password:pass1.value,
         text: content.value
@@ -42,8 +30,6 @@ async function getUrl(){
         alert('Возникли проблемы!')
     }
 };
-
-/* window.onload = getPass(); */
 form.onsubmit =()=>{
     if(pass1.value != pass2.value){
         alert('Пароли не одинаковы');
