@@ -1,5 +1,5 @@
 <template >
-    <ul class="cds-list-item">
+    <ul class="cds-card">
     <li><img :src=cardItem.avatar></li>
     <li><h2>{{cardItem.first_name}} {{cardItem.last_name}}</h2></li>
     <li>Email: {{cardItem.email}}</li>
@@ -14,7 +14,7 @@
 <script>
 
 export default {
-    name:'CdsListItem',
+    name:'CdsCard',
     props: {
         cardItem:{
             type: Object,

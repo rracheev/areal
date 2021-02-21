@@ -1,7 +1,7 @@
 <template >
     <div class='cds-list'>
         <cds-list-item v-for="card in cards" 
-        :key="card.id"
+        :key="card.id.$oid"
         :cardItem="card"
          />
     </div>
@@ -17,169 +17,14 @@ export default {
    props: {},
    data() {
        return {
-           cards:[
-         {
-         "id": 1,
-         "first_name": "Mylo",
-         "last_name": "Stammler",
-         "ip_address": {
-            "$oid": "6031befdfc13ae5388000014"
-         }
-         },
-         {
-         "id": 2,
-         "first_name": "Daron",
-         "last_name": "Cridlon",
-         "ip_address": {
-            "$oid": "6031befdfc13ae5388000015"
-         }
-         },
-         {
-         "id": 3,
-         "first_name": "Giavani",
-         "last_name": "Eastes",
-         "ip_address": {
-            "$oid": "6031befdfc13ae5388000016"
-         }
-         },
-         {
-         "id": 4,
-         "first_name": "Rutger",
-         "last_name": "Founds",
-         "ip_address": {
-            "$oid": "6031befdfc13ae5388000017"
-         }
-         },
-         {
-         "id": 5,
-         "first_name": "Theo",
-         "last_name": "Kersaw",
-         "ip_address": {
-            "$oid": "6031befdfc13ae5388000018"
-         }
-         },
-         {
-         "id": 6,
-         "first_name": "Filberto",
-         "last_name": "Margeram",
-         "ip_address": {
-            "$oid": "6031befdfc13ae5388000019"
-         }
-         },
-         {
-         "id": 7,
-         "first_name": "Tami",
-         "last_name": "Leadley",
-         "ip_address": {
-            "$oid": "6031befdfc13ae538800001a"
-         }
-         },
-         {
-         "id": 8,
-         "first_name": "Alden",
-         "last_name": "Gammack",
-         "ip_address": {
-            "$oid": "6031befdfc13ae538800001b"
-         }
-         },
-         {
-         "id": 9,
-         "first_name": "Melva",
-         "last_name": "Ratley",
-         "ip_address": {
-            "$oid": "6031befdfc13ae538800001c"
-         }
-         },
-         {
-         "id": 10,
-         "first_name": "Cinderella",
-         "last_name": "Foxley",
-         "ip_address": {
-            "$oid": "6031befdfc13ae538800001d"
-         }
-         },
-         {
-         "id": 11,
-         "first_name": "Cordi",
-         "last_name": "Tomsen",
-         "ip_address": {
-            "$oid": "6031befdfc13ae538800001e"
-         }
-         },
-         {
-         "id": 12,
-         "first_name": "Chlo",
-         "last_name": "Matskiv",
-         "ip_address": {
-            "$oid": "6031befdfc13ae538800001f"
-         }
-         },
-         {
-         "id": 13,
-         "first_name": "Anatol",
-         "last_name": "Jizhaki",
-         "ip_address": {
-            "$oid": "6031befdfc13ae5388000020"
-         }
-         },
-         {
-         "id": 14,
-         "first_name": "Jania",
-         "last_name": "Stares",
-         "ip_address": {
-            "$oid": "6031befdfc13ae5388000021"
-         }
-         },
-         {
-         "id": 15,
-         "first_name": "Vivien",
-         "last_name": "Mincini",
-         "ip_address": {
-            "$oid": "6031befdfc13ae5388000022"
-         }
-         },
-         {
-         "id": 16,
-         "first_name": "Filide",
-         "last_name": "Gwyn",
-         "ip_address": {
-            "$oid": "6031befdfc13ae5388000023"
-         }
-         },
-         {
-         "id": 17,
-         "first_name": "Aviva",
-         "last_name": "Tebald",
-         "ip_address": {
-            "$oid": "6031befdfc13ae5388000024"
-         }
-         },
-         {
-         "id": 18,
-         "first_name": "Tilda",
-         "last_name": "Mowatt",
-         "ip_address": {
-            "$oid": "6031befdfc13ae5388000025"
-         }
-         },
-         {
-         "id": 19,
-         "first_name": "Waneta",
-         "last_name": "Cadwallader",
-         "ip_address": {
-            "$oid": "6031befdfc13ae5388000026"
-         }
-         },
-         {
-         "id": 20,
-         "first_name": "Kippar",
-         "last_name": "Poulden",
-         "ip_address": {
-            "$oid": "6031befdfc13ae5388000027"
-         }
-         }
-         ]
-       }
+           cards:[{"id":{"$oid":"6032d562fc13ae08b1000000"},"first_name":"Merle","last_name":"Carwithim","email":"mcarwithim0@guardian.co.uk","gender":"Bigender","country":"Mexico","city":"Fovissste","company":"Linkbridge","comment":"ornare imperdiet sapien urna pretium nisl ut volutpat sapien arcu sed augue aliquam erat volutpat","avatar":"https://robohash.org/aliquidutfacere.png?size=300x300&set=set1"},
+{"id":{"$oid":"6032d562fc13ae08b1000001"},"first_name":"Starlin","last_name":"Marciek","email":"smarciek1@tmall.com","gender":"Polygender","country":"Czech Republic","city":"Dobroměřice","company":"Eidel","comment":"imperdiet et commodo vulputate justo in blandit ultrices enim","avatar":"https://robohash.org/adipisciconsequaturvel.png?size=300x300&set=set1"},
+{"id":{"$oid":"6032d562fc13ae08b1000002"},"first_name":"Blythe","last_name":"Windibank","email":"bwindibank2@cargocollective.com","gender":"Polygender","country":"Indonesia","city":"Jetis","company":"Jetpulse","comment":"dolor sit amet consectetuer adipiscing elit proin interdum mauris non","avatar":"https://robohash.org/quaeratblanditiisiure.png?size=300x300&set=set1"},
+{"id":{"$oid":"6032d562fc13ae08b1000003"},"first_name":"Morgen","last_name":"Lelande","email":"mlelande3@xrea.com","gender":"Non-binary","country":"Cuba","city":"Las Tunas","company":"Jatri","comment":"quam pharetra magna ac consequat metus sapien ut nunc vestibulum ante ipsum primis in faucibus","avatar":"https://robohash.org/teneturrerumiusto.png?size=300x300&set=set1"},
+{"id":{"$oid":"6032d562fc13ae08b1000004"},"first_name":"Ann","last_name":"Iacovozzo","email":"aiacovozzo4@merriam-webster.com","gender":"Male","country":"Poland","city":"Drawsko Pomorskie","company":"Quamba","comment":"magna ac consequat metus sapien ut nunc vestibulum ante ipsum primis in faucibus","avatar":"https://robohash.org/remcommodiest.png?size=300x300&set=set1"},
+{"id":{"$oid":"6032d562fc13ae08b1000005"},"first_name":"Goldy","last_name":"Mulleary","email":"gmulleary5@jugem.jp","gender":"Male","country":"Iceland","city":"Hafnarfjörður","company":"Jabberstorm","comment":"turpis a pede posuere nonummy integer non velit donec","avatar":"https://robohash.org/animiomnisculpa.png?size=300x300&set=set1"},
+{"id":{"$oid":"6032d562fc13ae08b1000006"},"first_name":"Jaine","last_name":"Ascough","email":"jascough6@storify.com","gender":"Genderfluid","country":"China","city":"Xambabazar","company":"Kwideo","comment":"orci mauris lacinia sapien quis libero nullam sit","avatar":"https://robohash.org/autvoluptatibusveniam.png?size=300x300&set=set1"}]
+        }
     },
    computed:{}
 }
@@ -189,8 +34,8 @@ export default {
     .cds-list{
         color: black;
         display: grid;
-        grid-template-columns: auto auto auto auto;
+        grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));;
         grid-gap: 25px;
-        padding: 25px;
+        margin: 25px;
     }
 </style>

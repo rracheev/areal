@@ -26,6 +26,4 @@ export default {
 </script>
 
 <style>
-    .cds-main{
-    }
 </style>
