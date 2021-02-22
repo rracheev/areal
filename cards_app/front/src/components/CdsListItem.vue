@@ -33,6 +33,7 @@ export default {
     }
     .cds-list-item:hover{
         box-shadow: 0px 0px 15px 1px #000000 inset;
+        background-color: #d7a668;
     }
     .cds-list-item{
         display: flex;

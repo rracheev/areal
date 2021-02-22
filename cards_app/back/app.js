@@ -19,20 +19,32 @@ function shortCards(page){
         );
     return cards;
 }
+function findCard(id){
+    for(let i=0;i<jsonCards.length;i++){
+        if (jsonCards[i].id.$oid===id){
+            return jsonCards[i];
+        }
+    };
+    return undefined;
+}
 app.get('/', function(request, response){
     response.setHeader('Access-Control-Allow-Origin', 'http://localhost:8080');
-    let res_cards;
+    let resCards;
     let page =request.query.page;
     if (page){
-        res_cards = shortCards(page);
+        resCards = shortCards(page);
     }
     else{
-        res_cards = shortCards(0);
+        resCards = shortCards(0);
     }
     response.send(JSON.stringify({
-        cards: res_cards,
+        cards: resCards,
         n: nPages
     }))
 });
-
+app.get('/get/:id', function(request, response){
+    response.setHeader('Access-Control-Allow-Origin', 'http://localhost:8080');
+    let resCard = findCard(request.params.id);
+    response.send(JSON.stringify(resCard))
+});
 app.listen(3000);

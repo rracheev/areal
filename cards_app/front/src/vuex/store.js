@@ -9,7 +9,7 @@ const api ='http://localhost:3000';
 const store = new Vuex.Store({
     state: {
         n:null,
-        page:0,
+        page:1,
         cards:[],
         card:{}
     },
@@ -48,22 +48,21 @@ const store = new Vuex.Store({
                 console.log(error)
             })
         },
-        GET_CERTAIN_PAGE({commit},cur_page){
+        GET_CERTAIN_PAGE({commit},curPage){
             return axios.get(api, {
                 params: {
-                    page: cur_page
+                    page: curPage-1
                 }
             }).then((data)=>{
-                commit('SET_CURRENT_PAGE',cur_page);
+                commit('SET_CURRENT_PAGE',curPage);
                 commit('SET_DATA_TO_STATE',data.data);
             }).catch((error)=>{
                 console.log(error)
             })
         },
-        GET_CERTAIN_CARD({commit},elem){
-            return axios.get(api+"/get/:id/"+elem
-            ).then((data)=>{
-                commit('SET_DATA_TO_STATE',data);
+        GET_CERTAIN_CARD({commit},curId){
+            return axios.get(api+'/get/'+curId).then((data)=>{
+                commit('SET_DATA_TO_CARD',data.data);
             }).catch((error)=>{
                 console.log(error)
             })

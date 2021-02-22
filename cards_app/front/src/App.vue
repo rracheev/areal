@@ -15,7 +15,8 @@ export default {
    props: {},
    methods:{
       ...mapActions([
-         'GET_FIRST_PAGE'
+         'GET_FIRST_PAGE',
+         'GET_CERTAIN_PAGE'
       ]),
    },
    mounted(){

@@ -7,7 +7,7 @@
             :cardItem="card"
         />
         </div>
-        <button v-if="PAGE>0" @click='pageBackward'>Назад</button>
+        <button v-if="PAGE>1" @click='pageBackward'>Назад</button>
         <span>Страница {{PAGE}} из {{N_PAGES}}</span>
         <button v-if="PAGE<N_PAGES" @click='pageForward'>Вперед</button>
     </div>

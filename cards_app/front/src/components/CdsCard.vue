@@ -1,37 +1,54 @@
 <template >
-    <ul class="cds-card">
-    <li><img :src=cardItem.avatar></li>
-    <li><h2>{{cardItem.first_name}} {{cardItem.last_name}}</h2></li>
-    <li>Email: {{cardItem.email}}</li>
-    <li>Пол: {{cardItem.gender}}</li>
-    <li>Страна: {{cardItem.country}}</li>
-    <li>Город: {{cardItem.city}}</li>
-    <li>Компания: {{cardItem.company}}</li>
-    <li>Комментарий: {{cardItem.comment}}</li>
+    <div>
+    <ul v-if="CARD" class="cds-card">
+    <li><img :src=CARD.avatar></li>
+    <li><h2>{{CARD.first_name}} {{CARD.last_name}}</h2></li>
+    <li>Email: {{CARD.email}}</li>
+    <li>Пол: {{CARD.gender}}</li>
+    <li>Страна: {{CARD.country}}</li>
+    <li>Город: {{CARD.city}}</li>
+    <li>Компания: {{CARD.company}}</li>
+    <li>Комментарий: {{CARD.comment}}</li>
     </ul>
+    <router-link class="link"
+        :to="{name: 'list'}"><button>Вернуться</button></router-link>
+    </div>
 </template>
 
 <script>
-
+import {mapGetters} from 'vuex';
+import {mapActions} from 'vuex';
 export default {
     name:'CdsCard',
-    props: {
-        cardItem:{
-            type: Object,
-            default(){
-                return {}
-            }
-        } 
-    },
     data(){
       return{}
     },
-    computed:{}
+    computed:{
+        ...mapGetters([
+            'CARD'
+        ])
+    },
+    props: {
+        id:{
+            type: String,
+            default(){
+                return ''
+            }
+        } 
+    },
+    methods:{
+      ...mapActions([
+         'GET_CERTAIN_CARD'
+      ]),
+   },
+   mounted(){
+        this.GET_CERTAIN_CARD(this.id);
+   }
 }
 </script>
 
 <style>
-    .cds-list-item{
+    .cds-card{
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -43,7 +60,7 @@ export default {
         margin: 0;
         padding: 10px;
     }
-    .cds-list-item img{
+    .cds-card img{
         border: 10px solid #502c2c;
         border-radius: 50%;
     }

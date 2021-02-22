@@ -17,10 +17,14 @@ export default {
 </script>
 
 <style>
+.cds-main {
+    font-size: 18px;
+}
 .cds-main button{
     padding: 5px 10px;
     margin: 10px;
     background-color:burlywood;
     border-radius: 5px;
+    font-size: 18px;
 }
 </style>
