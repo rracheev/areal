@@ -6,7 +6,7 @@ Vue.use(Vuex);
 
 const api ='http://localhost:3000';
 
-export let store = new Vuex.Store({
+const store = new Vuex.Store({
     state: {
         n:null,
         cards:[],
@@ -25,7 +25,9 @@ export let store = new Vuex.Store({
     },
     mutations: {
         SET_DATA_TO_STATE(state,data){
-            state.cards= data;
+            state.cards= data.cards;
+            state.n= data.n;
+            console.log(state.cards)
         },
         SET_DATA_TO_CARD(state,data){
             state.card= data;
@@ -33,9 +35,9 @@ export let store = new Vuex.Store({
     },
     actions: {
         GET_FIRST_PAGE({commit}){
-            return axios.get(api+"/"
+            return axios.get(api
             ).then((data)=>{
-                commit('SET_DATA_TO_STATE',data);
+                commit('SET_DATA_TO_STATE',data.data);
             }).catch((error)=>{
                 console.log(error)
             })
@@ -58,3 +60,4 @@ export let store = new Vuex.Store({
         }
     }
 });
+export default store

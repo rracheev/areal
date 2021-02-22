@@ -6,12 +6,21 @@
 
 <script>
 import CdsMain from './components/CdsMain';
+import {mapActions} from 'vuex';
 export default {
-    name: 'App',
-    components: {
-    CdsMain
-    },
-    props: {}
+   name: 'App',
+   components: {
+      CdsMain
+   },
+   props: {},
+   methods:{
+      ...mapActions([
+         'GET_FIRST_PAGE'
+      ]),
+   },
+   mounted(){
+      this.GET_FIRST_PAGE()
+   }
 }
 </script>
 
