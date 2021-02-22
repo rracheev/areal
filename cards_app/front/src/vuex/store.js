@@ -9,6 +9,7 @@ const api ='http://localhost:3000';
 const store = new Vuex.Store({
     state: {
         n:null,
+        page:0,
         cards:[],
         card:{}
     },
@@ -21,16 +22,21 @@ const store = new Vuex.Store({
         },
         N_PAGES(state){
             return state.n;
+        },
+        PAGE(state){
+            return state.page;
         }
     },
     mutations: {
         SET_DATA_TO_STATE(state,data){
-            state.cards= data.cards;
-            state.n= data.n;
-            console.log(state.cards)
+            state.cards = data.cards;
+            state.n = data.n;
         },
         SET_DATA_TO_CARD(state,data){
-            state.card= data;
+            state.card = data;
+        },
+        SET_CURRENT_PAGE(state,page){
+            state.page = page;
         }
     },
     actions: {
@@ -42,10 +48,14 @@ const store = new Vuex.Store({
                 console.log(error)
             })
         },
-        GET_CERTAIN_PAGE({commit,page}){
-            return axios.get(api+"/?page="+page
-            ).then((data)=>{
-                commit('SET_DATA_TO_STATE',data);
+        GET_CERTAIN_PAGE({commit},cur_page){
+            return axios.get(api, {
+                params: {
+                    page: cur_page
+                }
+            }).then((data)=>{
+                commit('SET_CURRENT_PAGE',cur_page);
+                commit('SET_DATA_TO_STATE',data.data);
             }).catch((error)=>{
                 console.log(error)
             })

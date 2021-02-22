@@ -1,29 +1,26 @@
 <template>
     <div class='cds-main'>
         <h1>Карточки</h1>
-        <cds-list />
+        <router-view></router-view>
     </div>
 </template>
-
 <script>
-import CdsList from './CdsList';
+
 export default {
     name:'сds-main',
-    components:{
-      CdsList
-    },
     props: {},
     data(){
-      return{
-         title: "FFF",
-      }
+        return{}
    },
-    computed:{},
-    mounted() {
-      console.log("main is here")
-    }
+    computed:{}
 }
 </script>
 
 <style>
+.cds-main button{
+    padding: 5px 10px;
+    margin: 10px;
+    background-color:burlywood;
+    border-radius: 5px;
+}
 </style>

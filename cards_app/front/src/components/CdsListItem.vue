@@ -1,14 +1,11 @@
 <template >
-    <ul class="cds-list-item">
-    <li><img :src=cardItem.avatar></li>
-    <li><h2>{{cardItem.first_name}} {{cardItem.last_name}}</h2></li>
-    <li>Email: {{cardItem.email}}</li>
-    <li>Пол: {{cardItem.gender}}</li>
-    <li>Страна: {{cardItem.country}}</li>
-    <li>Город: {{cardItem.city}}</li>
-    <li>Компания: {{cardItem.company}}</li>
-    <li>Комментарий: {{cardItem.comment}}</li>
-    </ul>
+    <router-link class="link"
+        :to="{name: 'card',params:{id:cardItem.id}}">
+        <ul class="cds-list-item">
+            <li><img :src=cardItem.avatar></li>
+            <li><h2>{{cardItem.first_name}} {{cardItem.last_name}}</h2></li>
+        </ul>
+    </router-link>
 </template>
 
 <script>
@@ -31,6 +28,12 @@ export default {
 </script>
 
 <style>
+    .link{
+        text-decoration: none;
+    }
+    .cds-list-item:hover{
+        box-shadow: 0px 0px 15px 1px #000000 inset;
+    }
     .cds-list-item{
         display: flex;
         flex-direction: column;

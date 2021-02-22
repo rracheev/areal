@@ -19,7 +19,7 @@ export default {
       ]),
    },
    mounted(){
-      this.GET_FIRST_PAGE()
+      this.GET_FIRST_PAGE();
    }
 }
 </script>
