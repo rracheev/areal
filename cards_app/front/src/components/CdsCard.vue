@@ -1,7 +1,8 @@
 <template >
     <div>
-    <ul v-if="CARD" class="cds-card">
-    <li><img :src=CARD.avatar></li>
+    <div class='cds-card'>
+    <img :src=CARD.avatar>
+    <ul v-if='CARD' class='card-list'>
     <li><h2>{{CARD.first_name}} {{CARD.last_name}}</h2></li>
     <li>Email: {{CARD.email}}</li>
     <li>Пол: {{CARD.gender}}</li>
@@ -10,8 +11,9 @@
     <li>Компания: {{CARD.company}}</li>
     <li>Комментарий: {{CARD.comment}}</li>
     </ul>
-    <router-link class="link"
-        :to="{name: 'list'}"><button>Вернуться</button></router-link>
+    </div>
+    <router-link class='link'
+        :to='{name: "list"}'><button>Вернуться</button></router-link>
     </div>
 </template>
 
@@ -50,18 +52,38 @@ export default {
 <style>
     .cds-card{
         display: flex;
-        flex-direction: column;
-        align-items: center;
+        flex-wrap: wrap;
         color: #2c3e50;
         background-color: burlywood;  
         box-shadow: 5px 3px 10px 0 #000000b3;
         border-radius: 15px;
-        list-style: none;
-        margin: 0;
-        padding: 10px;
+        margin: 0 auto;
+        width:50%;
+        min-width: 350px;
+        align-items: center;
+        justify-content: center;
+        text-align: start;
     }
     .cds-card img{
         border: 10px solid #502c2c;
-        border-radius: 50%;
+        margin: 15px;
+    }
+    .cds-card .card-list{
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        flex-grow: 1;
+    }
+    .cds-card li {
+        margin: 10px;
+    }
+    .cds-card li h2{
+        margin:0;
+    };
+    .cds-card li:nth-child(1){
+        align-self: center;
     }
 </style>

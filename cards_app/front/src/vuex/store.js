@@ -9,6 +9,7 @@ const api ='http://localhost:3000';
 const store = new Vuex.Store({
     state: {
         n:null,
+        limit:12,
         page:1,
         cards:[],
         card:{}
@@ -25,6 +26,9 @@ const store = new Vuex.Store({
         },
         PAGE(state){
             return state.page;
+        },
+        LIMIT(state){
+            return state.limit;
         }
     },
     mutations: {
@@ -37,6 +41,9 @@ const store = new Vuex.Store({
         },
         SET_CURRENT_PAGE(state,page){
             state.page = page;
+        },
+        SET_NEW_LIMIT(state,limit){
+            state.limit=limit;
         }
     },
     actions: {
@@ -45,27 +52,33 @@ const store = new Vuex.Store({
             ).then((data)=>{
                 commit('SET_DATA_TO_STATE',data.data);
             }).catch((error)=>{
-                console.log(error)
+                console.log(error);
             })
         },
-        GET_CERTAIN_PAGE({commit},curPage){
+        GET_CERTAIN_PAGE({commit,getters},curPage){
             return axios.get(api, {
                 params: {
-                    page: curPage-1
+                    page: curPage-1,
+                    limit: getters.LIMIT
                 }
             }).then((data)=>{
                 commit('SET_CURRENT_PAGE',curPage);
                 commit('SET_DATA_TO_STATE',data.data);
             }).catch((error)=>{
-                console.log(error)
+                console.log(error);
             })
         },
         GET_CERTAIN_CARD({commit},curId){
             return axios.get(api+'/get/'+curId).then((data)=>{
                 commit('SET_DATA_TO_CARD',data.data);
             }).catch((error)=>{
-                console.log(error)
+                console.log(error);
             })
+        },
+        GET_LIST_WITH_NEW_LIMIT({commit,getters},limit){
+            let newPage = Math.ceil(((getters.PAGE-1)*getters.LIMIT+1)/limit);
+            commit('SET_NEW_LIMIT',limit);
+            this.dispatch('GET_CERTAIN_PAGE',newPage);
         }
     }
 });

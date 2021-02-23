@@ -1,15 +1,22 @@
 <template >
     <div>
+        <div class='limit'>
+            <span class='get-limit'>{{limitValue}}</span>
+            <span>6</span>
+            <input type='range' min='6' max ='21' step='3' v-model.number='limitValue'
+               @change='newLimit(limitValue)'>
+            <span>21</span>
+        </div>
         <div class='cds-list'>
         <cds-list-item 
-            v-for="card in CARDS" 
-            :key="card.id"
-            :cardItem="card"
+            v-for='card in CARDS' 
+            :key='card.id'
+            :cardItem='card'
         />
         </div>
-        <button v-if="PAGE>1" @click='pageBackward'>Назад</button>
+        <button v-if='PAGE>1' @click='pageBackward'>Назад</button>
         <span>Страница {{PAGE}} из {{N_PAGES}}</span>
-        <button v-if="PAGE<N_PAGES" @click='pageForward'>Вперед</button>
+        <button v-if='PAGE<N_PAGES' @click='pageForward'>Вперед</button>
     </div>
 </template>
 
@@ -24,27 +31,37 @@ export default {
     },
     props: {},
     data() {
-        return {}
+        return {
+            limitValue : ''
+        }
     },
     computed:{
         ...mapGetters([
             'CARDS',
             'N_PAGES',
-            'PAGE'
+            'PAGE',
+            'LIMIT'
         ])
     },
     methods:{
         ...mapActions([
-            'GET_CERTAIN_PAGE'
+            'GET_CERTAIN_PAGE',
+            'GET_LIST_WITH_NEW_LIMIT'
         ]),
         pageForward(){
             this.GET_CERTAIN_PAGE(this.PAGE+1);
         },
         pageBackward(){
             this.GET_CERTAIN_PAGE(this.PAGE-1);
+        },
+        newLimit(newLimit){
+            this.GET_LIST_WITH_NEW_LIMIT(newLimit);
         }
     },
     actions:{
+    },
+    mounted(){
+        this.limitValue=this.LIMIT
     }
 }
 </script>
@@ -58,5 +75,8 @@ export default {
         grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));;
         grid-gap: 25px;
         margin: 25px auto;
+    }
+    .limit .get-limit{
+        display:block;
     }
 </style>
