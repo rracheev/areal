@@ -14,9 +14,11 @@
             :cardItem='card'
         />
         </div>
-        <button v-if='PAGE>1' @click='pageBackward'>Назад</button>
-        <span>Страница {{PAGE}} из {{N_PAGES}}</span>
-        <button v-if='PAGE<N_PAGES' @click='pageForward'>Вперед</button>
+        <div class="list-move-buttons">
+            <button v-if='PAGE>1' @click='pageBackward'>Назад</button>
+            <span>Страница {{PAGE}} из {{N_PAGES}}</span>
+            <button v-if='PAGE<N_PAGES' @click='pageForward'>Вперед</button>
+        </div>
     </div>
 </template>
 
@@ -46,7 +48,7 @@ export default {
     methods:{
         ...mapActions([
             'GET_CERTAIN_PAGE',
-            'GET_LIST_WITH_NEW_LIMIT'
+            'GET_PAGE_WITH_NEW_LIMIT'
         ]),
         pageForward(){
             this.GET_CERTAIN_PAGE(this.PAGE+1);
@@ -55,7 +57,7 @@ export default {
             this.GET_CERTAIN_PAGE(this.PAGE-1);
         },
         newLimit(newLimit){
-            this.GET_LIST_WITH_NEW_LIMIT(newLimit);
+            this.GET_PAGE_WITH_NEW_LIMIT(newLimit);
         }
     },
     actions:{
@@ -68,7 +70,6 @@ export default {
 
 <style>
     .cds-list{
-        width: 80%;
         margin: 0 auto;
         color: black;
         display: grid;
@@ -78,5 +79,8 @@ export default {
     }
     .limit .get-limit{
         display:block;
+    }
+    .list-move-buttons{
+        margin: 25px auto;
     }
 </style>

@@ -8,11 +8,12 @@ const api ='http://localhost:3000';
 
 const store = new Vuex.Store({
     state: {
-        n:null,
+        nPages:null,
         limit:12,
         page:1,
         cards:[],
-        card:{}
+        card:{},
+        searchString:''
     },
     getters: {
         CARDS(state){
@@ -22,19 +23,22 @@ const store = new Vuex.Store({
             return state.card;
         },
         N_PAGES(state){
-            return state.n;
+            return state.nPages;
         },
         PAGE(state){
             return state.page;
         },
         LIMIT(state){
             return state.limit;
+        },
+        SEARCH_STRING(state){
+            return state.searchString;
         }
     },
     mutations: {
         SET_DATA_TO_STATE(state,data){
             state.cards = data.cards;
-            state.n = data.n;
+            state.nPages = data.npages;
         },
         SET_DATA_TO_CARD(state,data){
             state.card = data;
@@ -44,11 +48,14 @@ const store = new Vuex.Store({
         },
         SET_NEW_LIMIT(state,limit){
             state.limit=limit;
+        },
+        SET_SEARCH_STRING(state,searchString){
+            state.searchString=searchString;
         }
     },
     actions: {
         GET_FIRST_PAGE({commit}){
-            return axios.get(api
+            axios.get(api
             ).then((data)=>{
                 commit('SET_DATA_TO_STATE',data.data);
             }).catch((error)=>{
@@ -56,10 +63,11 @@ const store = new Vuex.Store({
             })
         },
         GET_CERTAIN_PAGE({commit,getters},curPage){
-            return axios.get(api, {
+            axios.get(api, {
                 params: {
                     page: curPage-1,
-                    limit: getters.LIMIT
+                    limit: getters.LIMIT,
+                    search : getters.SEARCH_STRING
                 }
             }).then((data)=>{
                 commit('SET_CURRENT_PAGE',curPage);
@@ -69,16 +77,25 @@ const store = new Vuex.Store({
             })
         },
         GET_CERTAIN_CARD({commit},curId){
-            return axios.get(api+'/get/'+curId).then((data)=>{
+            commit('SET_DATA_TO_CARD',{});
+            axios.get(api+'/get/'+curId).then((data)=>{
                 commit('SET_DATA_TO_CARD',data.data);
             }).catch((error)=>{
                 console.log(error);
             })
         },
-        GET_LIST_WITH_NEW_LIMIT({commit,getters},limit){
+        GET_PAGE_WITH_NEW_LIMIT({commit,getters},limit){
             let newPage = Math.ceil(((getters.PAGE-1)*getters.LIMIT+1)/limit);
             commit('SET_NEW_LIMIT',limit);
             this.dispatch('GET_CERTAIN_PAGE',newPage);
+        },
+        GET_SEARCH_REQUEST({commit},searchString){
+            commit('SET_SEARCH_STRING',searchString);
+            this.dispatch('GET_CERTAIN_PAGE',1);
+        },
+        UNDO_SEARCH_REQUEST({commit}){
+            commit('SET_SEARCH_STRING','');
+            this.dispatch('GET_CERTAIN_PAGE',1);
         }
     }
 });
